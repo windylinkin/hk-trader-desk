@@ -1,0 +1,11 @@
+futu-api>=10.0,<11
+fastapi>=0.115,<1
+pydantic>=2.10,<3
+uvicorn[standard]>=0.30,<1
+pandas>=2.2,<3
+httpx>=0.27,<0.29
+platformdirs>=4,<5
+keyring>=25,<26
+python-dotenv>=1,<2
+pystray==0.19.5; sys_platform == "win32"
+Pillow>=10.4,<12; sys_platform == "win32"
