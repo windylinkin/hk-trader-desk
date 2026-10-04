@@ -24,9 +24,12 @@ from mobile_push import MobilePush, MobileSettings
 from market_analysis import history
 from system_notifier import notifier
 from runtime_config import FUTU_HOST, FUTU_PORT, DISABLE_MONITOR
+from quant_engine import QuantRequest, get_bars, simulate
+from paper_trading import PaperTrading
 
 HK = dt.timezone(dt.timedelta(hours=8))
 mobile = MobilePush(store)
+paper = PaperTrading(store)
 stop = threading.Event()
 state_lock = threading.RLock()
 web_loop = None
@@ -246,6 +249,8 @@ async def lifespan(app):
     stop.clear()
     notifier.start()
     mobile.start()
+    if not DISABLE_MONITOR:
+        paper.start()
     worker = threading.Thread(target=monitor_worker, daemon=True)
     if not DISABLE_MONITOR:
         worker.start()
@@ -253,6 +258,7 @@ async def lifespan(app):
         set_status("sleeping", "监控已通过环境设置暂停")
     yield
     stop.set()
+    paper.stop_event.set()
     mobile.stop_event.set()
     notifier.stop()
     if worker.is_alive():
@@ -294,6 +300,41 @@ def index():
 @app.get("/api/status")
 def api_status():
     return get_status()
+
+
+@app.post("/api/quant/backtest")
+def quant_backtest(body: QuantRequest):
+    try:
+        result = simulate(get_bars(body), body)
+        store.put("quant_parameters", body.model_dump())
+        return result
+    except ValueError as exc:
+        raise HTTPException(400, detail=str(exc)[:200])
+    except Exception:
+        raise HTTPException(503, detail="行情获取失败，请检查行情源、交易对支持和网络；不会使用虚拟行情替代")
+
+
+@app.get("/api/quant/config")
+def quant_config():
+    return store.get("quant_parameters", QuantRequest().model_dump())
+
+
+@app.get("/api/quant/paper")
+def paper_status():
+    return paper.state()
+
+
+@app.post("/api/quant/paper")
+def start_paper(body: QuantRequest):
+    try:
+        return paper.configure(body)
+    except ValueError as exc:
+        raise HTTPException(400, detail=str(exc))
+
+
+@app.post("/api/quant/paper/pause")
+def pause_paper():
+    return paper.pause()
 
 
 @app.get("/api/alerts")

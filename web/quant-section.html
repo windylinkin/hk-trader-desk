@@ -1,0 +1,14 @@
+<section id="quant" class="page"><article><h2>港股 / 比特币量化研究</h2><p class="hint">使用真实历史行情进行模拟交易。港股连接富途；比特币通过 CCXT 获取现货行情，无需交易所密钥。只做多、无杠杆，支持均线交叉参数配置。</p><div class="pattern-fields">
+<label>市场<select id="quantMarket"><option value="btc">比特币现货</option><option value="hk">港股</option></select></label>
+<label>代码 / 交易对<input id="quantSymbol" value="BTC/USDT"></label>
+<label>比特币行情源<select id="quantExchange"><option value="okx">OKX</option><option value="binance">Binance</option><option value="kraken">Kraken</option></select></label>
+<label>K线周期<select id="quantPeriod"><option value="K_60M">1小时</option><option value="K_DAY">日线</option><option value="K_15M">15分钟</option><option value="K_5M">5分钟</option><option value="K_1M">1分钟</option></select></label>
+<label>截止日期<input type="date" id="quantEnd"></label>
+<label>快线周期<input type="number" id="quantFast" value="10" min="2" max="100"></label>
+<label>慢线周期<input type="number" id="quantSlow" value="30" min="3" max="200"></label>
+<label>模拟资金（报价币）<input type="number" id="quantCapital" value="100000" min="1"></label>
+<label>每次投入比例（%）<input type="number" id="quantAllocation" value="50" min="1" max="100"></label>
+<label>单边手续费（基点）<input type="number" id="quantFee" value="10" min="0" max="500"></label>
+<label>单边滑点（基点）<input type="number" id="quantSlippage" value="5" min="0" max="500"></label>
+<label>港股每手股数<input type="number" id="quantLot" value="100" min="1" disabled></label>
+</div><div class="toolbar" style="margin-top:18px"><button id="runQuant" class="primary">运行模拟回测</button><small>参数运行成功后保存在本机 · 100 基点 = 1%</small></div><p id="quantMessage" class="hint">比特币显示最近最多500根已收盘K线；数据缺口和区间长短影响结果。港股整手大小需自行核实。未接入真实账户下单。</p><div id="quantSummary" class="analysis-cards"></div><div id="quantChart" style="height:350px"></div><h3>模拟账户权益</h3><div id="equityChart" style="height:200px"></div><div class="chart-footer"><a href="https://www.tradingview.com/" target="_blank" rel="noopener">TradingView Lightweight Charts™</a></div><h3>模拟成交（最近100笔）</h3><div class="table-scroll"><table><thead><tr><th>K线时间</th><th>方向</th><th>成交价</th><th>数量</th><th>手续费</th><th>平仓盈亏</th></tr></thead><tbody id="quantTrades"></tbody></table></div></article></section>

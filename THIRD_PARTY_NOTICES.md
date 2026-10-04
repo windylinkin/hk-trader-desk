@@ -2,6 +2,8 @@
 
 This project's original source is MIT licensed. Third-party components retain their own licenses.
 
+- CCXT is installed as a dependency under MIT: https://github.com/ccxt/ccxt. This project uses only its public spot OHLCV methods. The paper execution engine is original project code; no code from backtesting.py or other differently licensed trading engines is vendored.
+
 - TradingView Lightweight Charts 4.2.3 is vendored under Apache-2.0. Its LICENSE and NOTICE are preserved under `web/vendor`. See https://github.com/tradingview/lightweight-charts and https://www.tradingview.com/ for attribution.
 - Futu OpenAPI Python SDK is installed as a dependency. Futu OpenD is proprietary, supplied separately by Futu, and is not redistributed here. Users must comply with their market-data entitlements and applicable service terms.
 - FastAPI, Pydantic, HTTPX, platformdirs, python-dotenv and Pillow use their respective upstream licenses. Uvicorn, pandas and keyring likewise retain their upstream licenses.

@@ -1,5 +1,11 @@
 # HK Trader Desk
 
+## HK + BTC quantitative research
+
+The quantitative workspace supports configurable moving-average crossover backtests and a persisted forward paper account for HK equities and BTC spot. CCXT (MIT) supplies public BTC candles from OKX, Binance or Kraken; no exchange credentials or order endpoints are used. Configure lookbacks, capital, allocation, fees, slippage and HK lot size. Signals use closed candles with next-open simulated execution. The forward account polls every 30 seconds, warms up before trading and skips multi-candle outages. Restart preserves state; creating a new account resets the old simulation. Real-money execution is not implemented.
+
+BTC history is limited to 500 candles in UTC. HK timestamps remain Hong Kong wall-clock values and prices are unadjusted. The strategy is long-only without leverage; ending equity includes open positions. Costs are configurable and do not automatically model HK taxes or corporate actions. The header provides a persistent white/dark theme, including charts.
+
 A local-first Hong Kong stock monitoring and review workspace powered by Futu OpenD.
 
 [中文说明](README.zh-CN.md) · [Privacy](docs/PRIVACY.md) · [macOS setup](docs/MACOS.md) · [Contributing](CONTRIBUTING.md)
